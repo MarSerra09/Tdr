@@ -47,3 +47,11 @@ python -m venv env
 python -m pip install --upgrade pip
 python -m pip install flask flask-cors pandas openpyxl
 pip install -r requirements.txt
+
+---
+
+##  Reconeixement
+
+Aquest projecte és una adaptació i simplificació del projecte original [Six Degrees of Wikipedia (SDOW)](https://github.com/jwngr/sdow) creat per [jwngr](https://github.com/jwngr). 
+
+S'han separat i adaptat els components principals (backend en Flask, frontend en React i pipeline de base de dades en SQLite) per funcionar de forma local i optimitzada específicament per a la **Viquipèdia en català (`cawiki`)**, afegint-hi a més els scripts d'automatització i anàlisi estadística per al Treball de Recerca.
