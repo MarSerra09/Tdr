@@ -10,15 +10,15 @@ L'objectiu del projecte és descarregar els *dumps* oficials de la Viquipèdia c
 
 | Fitxer | Funció i Descripció |
 | :--- | :--- |
-| `POWERSHELL` | Script/Guia principal d'execució en Windows PowerShell que automatitza tot el procés: preparació de l'entorn, descàrrega de dades, creació de la BD i arrencada dels servidors. |
-| `DATABASE` | Script Bash cridat pel procés de base de dades per a la descàrrega automatitzada dels *dumps* `.sql.gz` de la Viquipèdia (`cawiki`) i l'execució del filtratge inicial. |
+| `POWERSHELL` | Script/Guia principal d'execució en Windows PowerShell que automatitza tot el procés en línia recta. |
+| `buildDatabase.sh` | Script Bash executat des de PowerShell per a la descàrrega automatitzada dels *dumps* `.sql.gz` de la Viquipèdia (`cawiki`) i la generació de la base de dades. |
 | `scriptviquipediapy` | Script d'automatització que realitza les 1.839 cerques aleatòries connectant-se a l'API pública de Viquipèdia i al backend local (`http://localhost:5000/paths`). |
 | `script.py` | Parser en Python que converteix el registre de text de les cerques (`resultats_viquipedia_1839.txt`) en un fitxer **Excel** estructurat (`.xlsx`). |
 | `importospy` | Script d'anàlisi de dades que avalua les rutes obtingudes i extreu els **20 articles intermedis (hubs)** més freqüents. |
 
 ---
 
-##  Requisits de l'Entorn
+## 🛠️ Requisits de l'Entorn
 
 * **Python:** Versió 3.10 o superior (`flask`, `flask-cors`, `pandas`, `openpyxl`).
 * **Node.js / npm:** Versió 24.20.0 o compatible (s'utilitza la versió portable).
@@ -26,14 +26,14 @@ L'objectiu del projecte és descarregar els *dumps* oficials de la Viquipèdia c
 
 ---
 
-## Execució
+## Execució 
 
-Segueix aquesta seqüència pas a pas a la terminal de PowerShell per executar tot el projecte des de zero:
+Executa aquesta seqüència única pas a pas a la terminal de PowerShell per realitzar tot el procés de principi a fi:
 
 ### 1. Clonar el repositori i preparar l'entorn virtual
 ```powershell
 # Clonar i accedir al directori del projecte
-git clone [https://github.com/jwngr/sdow.git](https://github.com/jwngr/sdow.git)
+git clone [https://github.com/MarSerra09/Tdr.git](https://github.com/MarSerra09/Tdr.git)
 cd "C:\Users\MarSerraDomínguez\Downloads\sdow-main\sdow-main"
 
 # Permetre l'execució d'scripts a PowerShell
