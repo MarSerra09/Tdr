@@ -4,6 +4,10 @@ Aquest repositori conté el codi font, els scripts de processament, la configura
 
 L'objectiu del projecte és descarregar els *dumps* oficials de la Viquipèdia catalana, processar-los per construir la base de dades SQLite local, executar el servidor backend en Flask, el frontend en React i realitzar una anàlisi estadística sobre una mostra de 1.839 cerques aleatòries.
 
+Aquest projecte és una adaptació i simplificació del projecte original [Six Degrees of Wikipedia (SDOW)](https://github.com/jwngr/sdow) creat per [jwngr](https://github.com/jwngr). 
+
+S'han separat i adaptat els components principals (backend en Flask, frontend en React i pipeline de base de dades en SQLite) per funcionar de forma local i optimitzada específicament per a la **Viquipèdia en català (`cawiki`)**, afegint-hi a més els scripts d'automatització i anàlisi estadística per al Treball de Recerca.
+
 ---
 
 ## Estructura dels Fitxers al Repositori
@@ -18,7 +22,7 @@ L'objectiu del projecte és descarregar els *dumps* oficials de la Viquipèdia c
 
 ---
 
-## 🛠️ Requisits de l'Entorn
+## Requisits de l'Entorn
 
 * **Python:** Versió 3.10 o superior (`flask`, `flask-cors`, `pandas`, `openpyxl`).
 * **Node.js / npm:** Versió 24.20.0 o compatible (s'utilitza la versió portable).
@@ -49,9 +53,3 @@ python -m pip install flask flask-cors pandas openpyxl
 pip install -r requirements.txt
 
 ---
-
-##  Reconeixement
-
-Aquest projecte és una adaptació i simplificació del projecte original [Six Degrees of Wikipedia (SDOW)](https://github.com/jwngr/sdow) creat per [jwngr](https://github.com/jwngr). 
-
-S'han separat i adaptat els components principals (backend en Flask, frontend en React i pipeline de base de dades en SQLite) per funcionar de forma local i optimitzada específicament per a la **Viquipèdia en català (`cawiki`)**, afegint-hi a més els scripts d'automatització i anàlisi estadística per al Treball de Recerca.
