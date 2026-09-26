@@ -51,5 +51,17 @@ rm -f "$ROOT_DIR/sdow.sqlite"
 python3 "$ROOT_DIR/process_all_links.py"
 
 echo -e "\n--------------------------------------------------"
+echo "📦 PAS 3: Moven la base de dades a la carpeta del projecte..."
+echo "--------------------------------------------------"
+
+# Es va col·locar el fitxer de la base de dades en català a dins de la carpeta del projecte amb el nom de “sdow.sqlite” (correspon al nom que busca el programa per defecte).
+if [ -f "$OUT_DIR/sdow.sqlite" ]; then
+  mv "$OUT_DIR/sdow.sqlite" "$ROOT_DIR/sdow.sqlite"
+  echo "[INFO] La base de dades s'ha mogut correctament a $ROOT_DIR/sdow.sqlite"
+elif [ -f "$ROOT_DIR/sdow.sqlite" ]; then
+  echo "[INFO] El fitxer sdow.sqlite ja es troba a la carpeta arrel del projecte."
+fi
+
+echo -e "\n--------------------------------------------------"
 echo "🎉 PROCES COMPLETAT AMB ÈXIT!"
 echo "--------------------------------------------------"
