@@ -34,7 +34,7 @@ Executa aquesta seqüència única pas a pas a la terminal de PowerShell per rea
 ```powershell
 # Clonar i accedir al directori del projecte
 git clone [https://github.com/MarSerra09/Tdr.git](https://github.com/MarSerra09/Tdr.git)
-cd "C:\Users\MarSerraDomínguez\Downloads\sdow-main\sdow-main"
+cd Tdr
 
 # Permetre l'execució d'scripts a PowerShell
 Set-ExecutionPolicy -ExecutionPolicy Bypass -Scope Process -Force
