@@ -1,0 +1,108 @@
+!pip install requests
+
+import random
+import requests
+import time
+import os
+
+def obtenir_titols_aleatoris_wikipedia():
+    url_wiki = "https://en.wikipedia.org/w/api.php"
+
+    headers = {
+        'User-Agent': 'ExperimentEducatiu1848/1.0 (contacte: elteuicorreu@exemple.com)'
+    }
+
+    params = {
+        "action": "query",
+        "format": "json",
+        "list": "random",
+        "rnnamespace": 0,
+        "rnlimit": 2
+    }
+    try:
+        resposta = requests.get(url_wiki, params=params, headers=headers).json()
+        articles = resposta["query"]["random"]
+        return articles[0]["title"], articles[1]["title"]
+    except Exception as e:
+        print(f"\n[Avís] Error temporal de connexió amb la Wikipedia API: {e}")
+        return None, None
+
+def cercar_camins(origen, desti):
+    url_api = "https://api.sixdegreesofwikipedia.com/paths"
+    payload = {"source": origen, "target": desti}
+
+    try:
+        temps_inicial = time.time()
+        response = requests.post(url_api, json=payload)
+        temps_final = time.time()
+
+        temps_trigat = temps_final - temps_inicial
+
+        if response.status_code == 200:
+            dades = response.json()
+            paths = dades.get("paths", [])
+
+            if not paths:
+                return "OK", f"Sense camins (Trigat: {temps_trigat:.2f}s)"
+
+            num_camins = len(paths)
+            longitud_cami = len(paths[0])
+            articles_pel_mig = max(0, longitud_cami - 2)
+
+            primer_cami = paths[0]
+            titols_cami = [dades["pages"].get(str(page_id), {}).get("title", f"ID:{page_id}") for page_id in primer_cami]
+            ruta_text = " -> ".join(titols_cami)
+
+            resum = f"Camins: {num_camins} | Pel mig: {articles_pel_mig} | Temps: {temps_trigat:.2f}s | Ruta: {ruta_text}"
+            return "OK", resum
+
+        elif response.status_code == 400:
+            return "ERROR_400", f"Un dels articles és nou o no hi és (Trigat: {temps_trigat:.2f}s)"
+        else:
+            return "ERROR_API", f"Error de servidor Codi {response.status_code} (Trigat: {temps_trigat:.2f}s)"
+
+    except Exception as e:
+        return "ERROR_CONNEXIO", str(e)
+
+# --- EXECUCIÓ PRINCIPAL ---
+TOTAL_CERQUES = 1839  
+fitxer_resultats = "resultats_wikipedia.txt"
+
+print(f"Iniciant l'experiment de {TOTAL_CERQUES} cerques aleatòries...")
+print(f"Els resultats es guardaran a: {fitxer_resultats}\n")
+
+# Comprovem si el fitxer ja existeix per no sobreescriure la capçalera
+ fitxer_existeix = os.path.exists(fitxer_resultats)
+
+# S'utilitza el mode "a" (append) per afegir dades sense esborrar el contingut anterior si es repèn
+with open(fitxer_resultats, "a", encoding="utf-8") as f:
+    if not fitxer_existeix:
+        f.write(f"--- EXPERIMENT DE {TOTAL_CERQUES} CERQUES ALEATÒRIES ---\n\n")
+
+    cerques_fetes = 0
+
+    while cerques_fetes < TOTAL_CERQUES:
+        origen, desti = obtenir_titols_aleatoris_wikipedia()
+
+        if not origen or not desti:
+            time.sleep(3)  # Espera de seguretat si falla l'API de Wikipedia
+            continue
+
+        cerques_fetes += 1
+        print(f"[{cerques_fetes}/{TOTAL_CERQUES}] Buscant: '{origen}' -> '{desti}'...")
+
+        estat, resultat_text = cercar_camins(origen, desti)
+
+        f.write(f"Cerca {cerques_fetes}: '{origen}' cap a '{desti}'\n")
+        f.write(f"Resultat: {resultat_text}\n")
+        f.write("-" * 50 + "\n")
+        
+        # Forcem el gravat immediat al disc dur per no perdre dades si s'interromp
+        f.flush()
+
+        if estat.startswith("ERROR"):
+            time.sleep(3)
+        else:
+            time.sleep(1.5)  # Pausa de seguretat per a consultes massives
+
+print(f"\nCompletat! S'han realitzat les {TOTAL_CERQUES} cerques i s'han guardat a '{fitxer_resultats}'.")
