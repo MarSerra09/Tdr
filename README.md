@@ -4,35 +4,53 @@ Aquest repositori conté el codi font, els scripts de processament, la configura
 
 L'objectiu del projecte és descarregar els *dumps* oficials de la Viquipèdia catalana, processar-los per construir la base de dades SQLite local, executar el servidor backend en Flask, el frontend en React i realitzar una anàlisi estadística sobre una mostra de 1.839 cerques aleatòries.
 
-Aquest projecte és una adaptació i simplificació del projecte original [Six Degrees of Wikipedia (SDOW)](https://github.com/jwngr/sdow) creat per [jwngr](https://github.com/jwngr). 
+---
 
-S'han separat i adaptat els components principals (backend en Flask, frontend en React i pipeline de base de dades en SQLite) per funcionar de forma local i optimitzada específicament per a la **Viquipèdia en català (`cawiki`)**, afegint-hi a més els scripts d'automatització i anàlisi estadística per al Treball de Recerca.
+## Autoria i Llicència
+
+Aquest projecte és una adaptació i simplificació del projecte original **[Six Degrees of Wikipedia (SDOW)](https://github.com/jwngr/sdow)** creat per **Jacob Wenger ([jwngr](https://github.com/jwngr))**.
+
+* **Codi original (Jacob Wenger):** L'estructura base de la base de dades, l'algorisme de cerca i la lògica del backend/frontend pertanyen al projecte original SDOW i estan subjectes a la **[Llicència MIT](https://opensource.org/licenses/MIT)**.
+* **Aportacions i adaptacions pròpies:**
+  * Adaptació i optimització de la base de dades SQLite per a la **Viquipèdia en català (`cawiki`)**.
+  * Script de mostreig automàtic (`scriptviquipediapy`) per dur a terme 1.839 cerques aleatòries connectades a l'API pública de la Viquipèdia.
+  * Script de conversió a Excel (`script.py`) per a l'estructuració de les dades obtingudes.
+  * Script d'anàlisi de freqüències (`importospy`) per a la identificació i recompte dels 20 articles intermedis (*hubs*) més utilitzats.
+  * Scripts de configuració i automatització global de l'entorn.
+
+---
+
+## Dades Utilitzades i Requisits Previs
+
+Per dur a terme aquest projecte s'han utilitzat els *dumps* oficials de la Viquipèdia en català amb data **01/07/2026**.
+
+> **⚠️ NOTA IMPORTANT:** Abans d'executar qualsevol dels scripts d'anàlisi o processament propi, cal descarregar prèviament tots els fitxers i la font del repositori des de la [web oficial de Six Degrees of Wikipedia](https://github.com/jwngr/sdow) (o clonar l'estructura base d'aquest repositori) i obtenir els fitxers `.sql.gz` corresponents des de la plataforma de *dumps* de la Fundació Wikimedia.
 
 ---
 
 ## Estructura dels Fitxers al Repositori
 
-| Fitxer | Funció i Descripció |
-| :--- | :--- |
-| `POWERSHELL` | Script/Guia principal d'execució en Windows PowerShell que automatitza tot el procés en línia recta. |
-| `buildDatabase.sh` | Script Bash executat des de PowerShell per a la descàrrega automatitzada dels *dumps* `.sql.gz` de la Viquipèdia (`cawiki`) i la generació de la base de dades. |
-| `scriptviquipediapy` | Script d'automatització que realitza les 1.839 cerques aleatòries connectant-se a l'API pública de Viquipèdia i al backend local (`http://localhost:5000/paths`). |
-| `script.py` | Parser en Python que converteix el registre de text de les cerques (`resultats_viquipedia_1839.txt`) en un fitxer **Excel** estructurat (`.xlsx`). |
-| `importospy` | Script d'anàlisi de dades que avalua les rutes obtingudes i extreu els **20 articles intermedis (hubs)** més freqüents. |
+| Fitxer | Funció i Descripció | Autoria |
+| :--- | :--- | :--- |
+| `POWERSHELL` | Script/Guia principal d'execució en Windows PowerShell que automatitza tot el procés. | Pròpia |
+| `buildDatabase.sh` | Script Bash executat per a la descàrrega dels *dumps* `.sql.gz` de `cawiki` i la generació de la BD. | Adaptació de J. Wenger |
+| `scriptviquipediapy` | Script d'automatització que realitza les 1.839 cerques aleatòries via API i backend local. | Pròpia |
+| `script.py` | Parser en Python que converteix el registre de text de les cerques en un fitxer **Excel** estructurat. | Pròpia |
+| `importospy` | Script d'anàlisi de dades que avalua les rutes i extreu els **20 articles intermedis (hubs)** més freqüents. | Pròpia |
 
 ---
 
 ## Requisits de l'Entorn
 
 * **Python:** Versió 3.10 o superior (`flask`, `flask-cors`, `pandas`, `openpyxl`).
-* **Node.js / npm:** Versió 24.20.0 o compatible (s'utilitza la versió portable).
+* **Node.js / npm:** Versió 24.20.0 o compatible.
 * **Terminal d'execució:** Windows PowerShell.
 
 ---
 
-## Execució 
+## Execució
 
-Executa aquesta seqüència única pas a pas a la terminal de PowerShell per realitzar tot el procés de principi a fi:
+Executa aquesta seqüència pas a pas a la terminal de PowerShell per realitzar tot el procés:
 
 ### 1. Clonar el repositori i preparar l'entorn virtual
 ```powershell
@@ -51,5 +69,3 @@ python -m venv env
 python -m pip install --upgrade pip
 python -m pip install flask flask-cors pandas openpyxl
 pip install -r requirements.txt
-
----
