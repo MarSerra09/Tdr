@@ -8,22 +8,18 @@ Set-ExecutionPolicy -ExecutionPolicy Bypass -Scope Process -Force
 python -m venv env
 & ".\env\Scripts\Activate.ps1"
 
-# 4. Instal·lar i actualitzar les dependències de Python
+# 4. Actualitzar pip i instal·lar les dependències del projecte
 python -m pip install --upgrade pip
-python -m pip install flask flask-cors pandas openpyxl
 pip install -r requirements.txt
 
-# 5. Executar l'script de creació i processament de la base de dades SQLite
-python process_all_links.py
-
-# 6. Crear la segona base de dades buida per registrar l'historial de cerques
+# 5. Crear la segona base de dades buida per registrar l'historial de cerques (si no existeix)
 python -c "import sqlite3; conn = sqlite3.connect('searches.sqlite'); conn.execute('CREATE TABLE IF NOT EXISTS searches (source_id INT, target_id INT, duration REAL, degrees_count INT, paths_count INT, paths TEXT, t INT)'); conn.commit(); conn.close()"
 
-# 7. Iniciar el Servidor Backend (Flask) al port 5000
+# 6. Iniciar el Servidor Backend (Flask) al port 5000
 $env:FLASK_APP = "sdow.server"
 flask run --port=5000
 
-# 8. Obrir una nova pestanya de PowerShell per al Frontend
+# 7. Obrir una nova pestanya de PowerShell per al Frontend
 cd website
 npm install --engine-strict=false
 npm start
